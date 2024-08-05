@@ -1,130 +1,84 @@
-// Variables
-const Ok_btn = document.querySelector('.ok-btn');
-const Back_Home = document.querySelector('.Home-btn');
-const Age_Input = document.getElementById('Age-Input');
-const Weight_Input = document.getElementById('Weight-Input');
-const Height_Input = document.getElementById('Height-Input');
-const Calculate_btn = document.querySelector('.Calculate-btn');
-const BMI_Container = document.querySelector('.BMI-Container');
-const Error_Container = document.querySelector('.Error-Container');
-const Gender_Container = document.querySelector('.Gender-Container');
-const Output_Container = document.querySelector('.Output-Container');
-const Result_Container = document.querySelector('.Result-Container > h1');
-const Description_Container = document.querySelector('.Description-Container');
-// Custom Main Object 
+// Variable 
+const Swap_btn = document.querySelector('#Swap-btn');
+const Submit_btn = document.querySelector('.Sumbit-btn');
+const Input_field = document.getElementById('Value-Input');
+const To_DropDown = document.getElementById('To-DropDown');
+const From_DropDown = document.getElementById('From-DropDown');
+const Result_Container = document.querySelector('footer > span');
+// Custom Main Object for work and evaluation...
 const Main_Object = {
-    Gender : '',
-    BMI_Value : 0,
-    Age_Value : 0,
-    Error_Data : '',
-    Weight_Value : 0,
-    Height_Value : 0,
-    BMI_Description : '',
+    Input_Value : 0,
+    To_Currency : '',
+    From_Currency : '',
+    Rates_obj : [],
+    Currency_obj : [],
+    Result : ``,
 }
-// Escape Btn For Re-enter the Data
-Ok_btn.addEventListener('click',()=>{
-    Error_Container.classList.toggle('hide');
-})
-// BMI-Calculation
-Calculate_btn.addEventListener('click',()=>{
-    
-    Main_Object.Weight_Value = Weight_Input.value;
-    Main_Object.Height_Value = Height_Input.value /100;
-    Main_Object.BMI_Value = (Main_Object.Weight_Value/(Main_Object.Height_Value**2)).toFixed(2);
-    Main_Object.Age_Value = Age_Input.value;
-    if(Weight_Input.value !== '' && Height_Input.value !== '' 
-        && Age_Input.value !== '' && Main_Object.Gender !== ''){
-            Display_Output();
-            // Display Result
-            setTimeout(() => {
-                BMI_Container.classList.toggle('hide');
-                Output_Container.style.visibility = 'visible';
-            }, 50);
-    }
-    else if(Weight_Input.value === '' && Height_Input.value === '' 
-        && Age_Input.value === '' && Main_Object.Gender === ''){
-            Main_Object.Error_Data = 'Enter All Details';
-            Error_Container.classList.toggle('hide');
-            Display_Error();
-    }
-    else if(Age_Input.value === ''){
-        Main_Object.Error_Data = 'Enter Age';
-        Error_Container.classList.toggle('hide');
-        Display_Error();
-    }
-    else if(Weight_Input.value === ''){
-        Main_Object.Error_Data = 'Enter Weight';
-        Error_Container.classList.toggle('hide');
-        Display_Error();
-    }
-    else if(Height_Input.value === ''){
-        Main_Object.Error_Data = 'Enter Height';
-        Error_Container.classList.toggle('hide');
-        Display_Error();
-    }
-    else if(Main_Object.Gender === ''){
-        Main_Object.Error_Data = 'Select Gender';
-        Display_Error();
-        Error_Container.classList.toggle('hide');
-    }
-});
-// Display Home Page
-Back_Home.addEventListener('click',()=>{
-    setTimeout(() => {
-        window.location.reload();
-    }, 50);
-});
-// Styling the Elements
-Gender_Container.children[0].addEventListener('click',()=>{
-    Main_Object.Gender = 'Male';
-    Gender_Container.children[0].style.boxShadow = `inset -5px -5px 12px #ffffffd0,
-                                                    inset 5px 5px 10px rgba(0, 0, 0, 0.5)`;
-    Gender_Container.children[1].style.boxShadow = `inset 5px 5px 12px #ffffffd0,
-                                                    inset -5px -5px 10px rgba(0, 0, 0, 0.5)`;
-});
-Gender_Container.children[1].addEventListener('click',()=>{
-    Main_Object.Gender = 'Female';
-    Gender_Container.children[1].style.boxShadow = `inset -5px -5px 12px #ffffffd0,
-                                                    inset 5px 5px 10px rgba(0, 0, 0, 0.5)`;
-    Gender_Container.children[0].style.boxShadow = `inset 5px 5px 12px #ffffffd0,
-                                                    inset -5px -5px 10px rgba(0, 0, 0, 0.5)`;
-});
-// Display Final Output
-function Display_Output(){
-    Main_Object.BMI_Value = parseFloat(Main_Object.BMI_Value);
-    if(Main_Object.BMI_Value <= 18.5){
-        Main_Object.BMI_Description = 'Under Weight';
-        Description_Container.children[4].style.color = 'lightcoral';
-    }
-    else if(Main_Object.BMI_Value > 18.5 && Main_Object.BMI_Value <= 24.9){
-        Main_Object.BMI_Description = 'Normal Weight';
-        Description_Container.children[4].style.color = 'green';
-    }
-    else if(Main_Object.BMI_Value >= 25 && Main_Object.BMI_Value <= 29.9){
-        Main_Object.BMI_Description = 'Over Weight';
-        Description_Container.children[4].style.color = 'indianred';
-    }
-    else if(Main_Object.BMI_Value >= 30 && Main_Object.BMI_Value <= 34.9){
-        Main_Object.BMI_Description = 'Obesity (Class 1)';
-        Description_Container.children[4].style.color = 'red';
-    }
-    else if(Main_Object.BMI_Value >= 35 && Main_Object.BMI_Value <= 39.9){
-        Main_Object.BMI_Description = 'Obesity (Class 2)';
-        Description_Container.children[4].style.color = 'darkred';
-    }
-    else if(Main_Object.BMI_Value >= 40){
-        Main_Object.BMI_Description = 'Obesity (Class 3)';
-        Description_Container.children[4].style.color = 'darkred';
-
-    }
-    Result_Container.innerHTML = Main_Object.BMI_Value;
-    Description_Container.children[0].innerHTML = `${Main_Object.Weight_Value} KG`;
-    Description_Container.children[1].innerHTML = `${Main_Object.Height_Value} M`;
-    Description_Container.children[2].innerHTML = `${Main_Object.Age_Value} Years Old`;
-    Description_Container.children[3].innerHTML = `${Main_Object.Gender}`;
-    Description_Container.children[4].innerHTML = Main_Object.BMI_Description;
+// clear the screen and data...
+function Clear_btn(){
+    window.location.reload();
 }
-// Display Any Error Occurred (Inadequate Data)
-function Display_Error(){
-    Error_Container.children[1].innerHTML = `${Main_Object.Error_Data}`;
-}CognoRise_InfoTech_Task3
+// Getting Data exchange rate of currencies based on the requests...
+async function Get_Rates(){
+    try {
+        const Url_Response = await fetch(`https://api.frankfurter.app/latest?amount=${Main_Object.Input_Value}&from=${Main_Object.From_Currency}&to=${Main_Object.To_Currency}`);
+        if(!Url_Response.ok){
+            throw new Error("!Error Occurred by fetching the Rates.")
+        }
+        let Data_Response = Url_Response.json();
+        Data_Response.then(Data => {
+            Main_Object.Rates_obj = Object.entries(Data.rates);
+            Main_Object.Result = `${Data.amount} ${Main_Object.From_Currency} ==> ${Main_Object.Rates_obj[0][1]} ${Main_Object.To_Currency}`;
+            Result_Container.innerHTML = Main_Object.Result;
+        });
+    } catch (error) {
+        console.error(error);   
+    }
+}
+// Getting Data diffrent Currencie's Name and abbreviations of currencies for displaying to the dropdowns
+Get_Currencies();
+async function Get_Currencies(){
+    try {
+        // endpoint (/currencies)
+        const Url_Response = await fetch(`https://api.frankfurter.app/currencies`);
+        if(!Url_Response.ok){
+            throw new Error("!Error Occurred by fetching the Currencies.")
+        }
+        let Data_Response = Url_Response.json()
+        Data_Response.then(Data =>{
+            Main_Object.Currency_obj = Object.entries(Data);
+            for (const iterator of Main_Object.Currency_obj) {
+                const To_Options = document.createElement('option');
+                const From_Options = document.createElement('option');
+                To_Options.value = iterator[0];
+                From_Options.value = iterator[0];
+                To_Options.innerText = iterator[0];
+                From_Options.innerText = iterator[0];
+                To_DropDown.appendChild(To_Options);
+                From_DropDown.appendChild(From_Options);
+            }
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+// This button for Evaluation
+Submit_btn.addEventListener('click',()=>{
+    Main_Object.Input_Value = Input_field.value;
+    Get_Rates();
+});
+// From DropDown
+From_DropDown.addEventListener('change',(event)=>{
+    Main_Object.From_Currency = event.target.value;
+});
+// To DropDown
+To_DropDown.addEventListener('change',(event)=>{
+    Main_Object.To_Currency = event.target.value;
+});
+// Swap the Currencies each other 
+Swap_btn.addEventListener('click',()=>{
+    From_DropDown.value = Main_Object.To_Currency;
+    To_DropDown.value = Main_Object.From_Currency;
+    Main_Object.From_Currency = From_DropDown.value;
+    Main_Object.To_Currency = To_DropDown.value;
+});
